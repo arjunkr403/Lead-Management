@@ -3,14 +3,14 @@ import dotenv from "dotenv";
 import { faker } from "@faker-js/faker";
 import Lead from "../models/Lead.js";
 
-dotenv.config({ path: './backend/.env' });
+dotenv.config({ path: "./backend/.env" });
 
 const connectDB = async () => {
   await mongoose.connect(process.env.MONGO_URI);
 };
 const SOURCES = ["Website", "Ads", "Referral"];
 const STATUSES = ["New", "Contacted", "Converted"];
-const STAGES = = ["Lead", "Prospect", "Customer"];
+const STAGES = ["Lead", "Prospect", "Customer"];
 
 const generateLeads = (count = 500) => {
   const leads = [];
