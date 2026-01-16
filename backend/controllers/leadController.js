@@ -1,71 +1,102 @@
-import Lead from "../models/leadModel.js";
+import Lead from "../models/Lead.js";
 
-const getLeads = async (req, res) => {
-  const pageSize = 10;
-  const page = Number(req.query.page) || 1;
+export const getLeads = async (req, res) => {
+    try {
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const search = req.query.search || "";
+        const status = req.query.status;
+        const stage = req.query.stage;
+        const sort = req.query.sort || "createdAt";
+        const order = req.query.order === "asc" ? 1 : -1;
+        const query = {};
 
-  const keyword = req.query.keyword
-    ? {
-        $or: [
-          { name: { $regex: req.query.keyword, $options: "i" } },
-          { email: { $regex: req.query.keyword, $options: "i" } },
-        ],
-      }
-    : {};
+        if (search) {
+            query.$or = [
+                { name: { $regex: search, $options: "i" } },
+                { email: { $regex: search, $options: "i" } },
+            ];
+        }
 
-  const status = req.query.status ? { status: req.query.status } : {};
+        if (status) {
+            query.status = status;
+        }
+        if (stage) {
+            query.stage = stage;
+        }
 
-  const source = req.query.source ? { source: req.query.source } : {};
+        const skip = (page - 1) * limit;
 
-  const sort = req.query.sort ? req.query.sort : "-createdAt";
+        const leads = await Lead.find(query)
+            .sort({ [sort]: order })
+            .skip(skip)
+            .limit(limit);
+        const total = await Lead.countDocuments(query);
 
-  try {
-    const count = await Lead.countDocuments({
-      ...keyword,
-      ...status,
-      ...source,
-    });
-    const leads = await Lead.find({ ...keyword, ...status, ...source })
-      .sort(sort)
-      .limit(pageSize)
-      .skip(pageSize * (page - 1));
-
-    res.json({ leads, page, pages: Math.ceil(count / pageSize) });
-  } catch (error) {
-    res.status(500).json({ message: "Server Error" });
-  }
-};
-
-const getLeadById = async (req, res) => {
-  try {
-    const lead = await Lead.findById(req.params.id);
-
-    if (lead) {
-      res.json(lead);
-    } else {
-      res.status(404).json({ message: "Lead not found" });
+        res.json({
+            total,
+            page, 
+            limit,
+            leads,
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
     }
-  } catch (error) {
-    res.status(500).json({ message: "Server Error" });
-  }
-};
+}
 
-const getLeadAnalytics = async (req, res) => {
-  try {
-    const totalLeads = await Lead.countDocuments();
-    const convertedLeads = await Lead.countDocuments({ status: "Converted" });
-    const leadsByStage = await Lead.aggregate([
-      { $group: { _id: "$status", count: { $sum: 1 } } },
-    ]);
+export const getLeadById = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const lead = await Lead.findById(id);
 
-    res.json({
-      totalLeads,
-      convertedLeads,
-      leadsByStage,
-    });
-  } catch (error) {
-    res.status(500).json({ message: "Server Error" });
-  }
-};
+        if(!lead) {
+            return res.status(404).json({
+                message: "No lead found with this Id"
+            });
+        }
 
-export { getLeads, getLeadById, getLeadAnalytics };
+        res.json({
+            lead
+        })
+    } catch(err) {
+        res.status(500).json({
+            message: "Invalid Lead Id"
+        })
+    }
+}
+
+export const getLeadStat = async (req, res) => {
+    try {
+        const totalLeads = await Lead.countDocuments();
+        
+        const convertedLeads = await Lead.countDocuments({
+            status: "Converted",
+        });
+
+        const leadByStageAgg = await Lead.aggregate([
+            {
+                $group: {
+                    _id: "$stage",
+                    count: { $sum: 1 },
+                },
+            },
+        ]);
+
+        const leadByStage = {};
+        leadByStageAgg.forEach((item) => {
+            leadByStage[item._id] = item.count;
+        });
+
+        res.json({
+            totalLeads,
+            convertedLeads,
+            leadByStage
+        });
+    } catch(err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
