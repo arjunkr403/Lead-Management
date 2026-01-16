@@ -76,9 +76,10 @@ const Login = () => {
           </div>
 
           <button
+            className="cursor-pointer"
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-md transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
+            className="cursor-pointer w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-md transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
@@ -86,7 +87,7 @@ const Login = () => {
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Demo credentials to use:{" "}
+            Demo credentials to use {"->"}{" "}
             <span className="font-semibold">Id: admin</span>{" "}
             <span className="font-semibold">Pass: admin123</span>
           </p>
