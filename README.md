@@ -274,3 +274,35 @@ Built as a demonstration project for a Lead Management System.
 - [Vercel Documentation](https://vercel.com/docs)
 - [React Router](https://reactrouter.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
+
+## 🚀 Deployment on Render
+
+### Backend Deployment
+
+1.  **Create a new Web Service on Render.**
+2.  **Connect your Git repository.**
+3.  **Configure the backend:**
+    *   **Name:** Give your service a name (e.g., `lead-management-backend`).
+    *   **Region:** Choose a region close to you.
+    *   **Branch:** Select the branch you want to deploy (e.g., `main`).
+    *   **Root Directory:** `backend`
+    *   **Build Command:** `npm install`
+    *   **Start Command:** `node server.js`
+4.  **Add Environment Variables:**
+    *   `MONGO_URI`: Your MongoDB Atlas connection string.
+    *   `PORT`: `5000`
+    *   `VITE_APP_BASE_URL`: The URL of your deployed frontend (you'll get this after deploying the frontend).
+
+### Frontend Deployment
+
+1.  **Create a new Static Site on Render.**
+2.  **Connect your Git repository.**
+3.  **Configure the frontend:**
+    *   **Name:** Give your service a name (e.g., `lead-management-frontend`).
+    *   **Region:** Choose a region close to you.
+    *   **Branch:** Select the branch you want to deploy (e.g., `main`).
+    *   **Root Directory:** `frontend`
+    *   **Build Command:** `npm run build`
+    *   **Publish Directory:** `dist`
+4.  **Add Environment Variables:**
+    *   `VITE_API_BASE_URL`: The URL of your deployed backend (e.g., `https://lead-management-backend.onrender.com/api`).

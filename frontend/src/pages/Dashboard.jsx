@@ -69,7 +69,7 @@ const Dashboard = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Leads */}
-        <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+        <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium uppercase">
@@ -98,7 +98,7 @@ const Dashboard = () => {
         </div>
 
         {/* Converted Leads */}
-        <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
+        <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium uppercase">
@@ -127,7 +127,7 @@ const Dashboard = () => {
         </div>
 
         {/* Conversion Rate */}
-        <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500">
+        <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium uppercase">
@@ -156,7 +156,7 @@ const Dashboard = () => {
         </div>
 
         {/* Active Prospects */}
-        <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500">
+        <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium uppercase">
@@ -272,7 +272,7 @@ const Dashboard = () => {
             Stage Summary
           </h2>
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg hover:bg-blue-100 hover:shadow-md transform transition-transform delay-300">
               <div className="flex items-center">
                 <div className="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
                 <span className="font-medium text-gray-700">Lead</span>
@@ -282,7 +282,7 @@ const Dashboard = () => {
               </span>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 hover:shadow-md transform transition-transform delay-300">
               <div className="flex items-center">
                 <div className="w-3 h-3 bg-yellow-500 rounded-full mr-3"></div>
                 <span className="font-medium text-gray-700">Prospect</span>
@@ -292,7 +292,7 @@ const Dashboard = () => {
               </span>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg hover:bg-green-100 hover:shadow-md transform transition-transform delay-300">
               <div className="flex items-center">
                 <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
                 <span className="font-medium text-gray-700">Customer</span>
